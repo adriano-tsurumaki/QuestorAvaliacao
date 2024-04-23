@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Context;
 
-public class BancoContext(DbContextOptions<BancoContext> op) : DbContext(op)
+public class FaturaContext(DbContextOptions<FaturaContext> op) : DbContext(op)
 {
     public DbSet<Banco> Banco { get; set; }
     public DbSet<Boleto> Boleto { get; set; }

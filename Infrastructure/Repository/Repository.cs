@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository;
 
-public class Repository<T>(BancoContext context) : IRepository<T> where T : class
+public class Repository<T>(FaturaContext context) : IRepository<T> where T : class
 {
-    public readonly BancoContext _context = context;
+    public readonly FaturaContext _context = context;
 
     public async Task AddAsync(T entity) => 
         await _context.Set<T>().AddAsync(entity);

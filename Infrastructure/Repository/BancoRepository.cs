@@ -4,7 +4,7 @@ using Infrastructure.Context;
 
 namespace Infrastructure.Repository
 {
-    public class BancoRepository(BancoContext context) : Repository<Banco>(context), IBancoRepository
+    public class BancoRepository(FaturaContext context) : Repository<Banco>(context), IBancoRepository
     {
         public async Task<int> Cadastrar(Banco banco)
         {

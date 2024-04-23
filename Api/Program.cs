@@ -17,7 +17,7 @@ var configuration = builder.Configuration;
 
 var connDb = configuration.GetConnectionString("Fatura");
 
-builder.Services.AddDbContext<BancoContext>(options => options.UseNpgsql(connDb));
+builder.Services.AddDbContext<FaturaContext>(options => options.UseNpgsql(connDb));
 
 
 var mapProfile = new MappingProfile();
