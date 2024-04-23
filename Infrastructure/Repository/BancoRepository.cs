@@ -15,9 +15,9 @@ namespace Infrastructure.Repository
 
         public async Task<IList<Banco>> ListarTodos()
         {
-            var listaDeBancos = await GetAll();
+            var lista = await GetAll();
 
-            return listaDeBancos.ToList();
+            return lista.ToList();
         }
 
         public async Task<Banco> Buscar(int codigoBanco)
