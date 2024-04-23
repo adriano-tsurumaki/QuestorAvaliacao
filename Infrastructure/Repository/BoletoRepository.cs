@@ -2,27 +2,26 @@
 using Domain.Interface.Repository;
 using Infrastructure.Context;
 
-namespace Infrastructure.Repository
+namespace Infrastructure.Repository;
+
+public class BoletoRepository(FaturaContext context) : Repository<Boleto>(context), IBoletoRepository
 {
-    public class BoletoRepository(FaturaContext context) : Repository<Boleto>(context), IBoletoRepository
+    public async Task<int> Cadastrar(Boleto boleto)
     {
-        public async Task<int> Cadastrar(Boleto boleto)
-        {
-            await AddAsync(boleto);
+        await AddAsync(boleto);
 
-            return _context.SaveChanges();
+        return _context.SaveChanges();
+    }
+
+    public async Task<Boleto> Buscar(int codigoBoleto)
+    {
+        var boleto = await GetById(codigoBoleto);
+
+        if (boleto is null)
+        {
+            return new();
         }
 
-        public async Task<Boleto> Buscar(int codigoBoleto)
-        {
-            var boleto = await GetById(codigoBoleto);
-
-            if (boleto is null)
-            {
-                return new();
-            }
-
-            return boleto;
-        }
+        return boleto;
     }
 }

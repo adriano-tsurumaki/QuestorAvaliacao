@@ -13,12 +13,12 @@ public class FaturaContext(DbContextOptions<FaturaContext> op) : DbContext(op)
     {
         modelBuilder.Entity<Boleto>()
             .Property(b => b.CpfCnpjBeneficiario)
-            .HasConversion(v => v.ToString(),
+            .HasConversion(v => v.Formatado,
                 v => new CpfCnpj(v));
 
         modelBuilder.Entity<Boleto>()
             .Property(b => b.CpfCnpjPagador)
-            .HasConversion(v => v.ToString(),
+            .HasConversion(v => v.Formatado,
                 v => new CpfCnpj(v));
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Domain.DTO;
+using Domain.Exceptions;
 using Domain.Interface.Application;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,9 +24,13 @@ public class BancoController(IBancoApplication bancoApplication) : Controller
             await _bancoApplication.Cadastrar(banco);
             return Ok();
         }
+        catch(FluentValidationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
         catch (Exception)
         {
-            return BadRequest();
+            return StatusCode(500);
         }
     }
 
@@ -45,7 +50,7 @@ public class BancoController(IBancoApplication bancoApplication) : Controller
         }
         catch (Exception)
         {
-            return BadRequest();
+            return StatusCode(500);
         }
     }
 
@@ -58,8 +63,15 @@ public class BancoController(IBancoApplication bancoApplication) : Controller
     [ProducesResponseType(200), ProducesResponseType(404)]
     public async Task<ActionResult> GetSingleBank(int codigoBanco)
     {
-        var banco = await _bancoApplication.Buscar(codigoBanco);
+        try
+        {
+            var banco = await _bancoApplication.Buscar(codigoBanco);
 
-        return Ok(banco);
+            return Ok(banco);
+        }
+        catch (Exception) 
+        {
+            return StatusCode(500);
+        }
     }
 }

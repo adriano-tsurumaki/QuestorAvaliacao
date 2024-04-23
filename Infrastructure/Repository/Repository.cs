@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using Domain.Interface.Repository;
+﻿using Domain.Interface.Repository;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 

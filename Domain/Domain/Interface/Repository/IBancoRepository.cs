@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Domain.DTO;
 using Domain.Entity;
 
-namespace Domain.Interface.Repository
+namespace Domain.Interface.Repository;
+
+public interface IBancoRepository
 {
-    public interface IBancoRepository
-    {
-        Task<int> Cadastrar(Banco banco);
-        Task<IList<Banco>> ListarTodos();
-        Task<Banco> Buscar(int codigoBanco);
-    }
+    Task<int> Cadastrar(Banco banco);
+    Task<IList<Banco>> ListarTodos();
+    Task<Banco> Buscar(int codigoBanco);
 }

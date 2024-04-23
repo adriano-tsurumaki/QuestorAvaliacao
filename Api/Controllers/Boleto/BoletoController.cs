@@ -1,4 +1,5 @@
 ﻿using Domain.DTO;
+using Domain.Exceptions;
 using Domain.Interface.Application;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,24 +24,35 @@ public class BoletoController(IBoletoApplication boletoApplication) : Controller
             await _boletoApplication.Cadastrar(banco);
             return Ok();
         }
+        catch (FluentValidationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
         catch (Exception)
         {
-            return BadRequest();
+            return StatusCode(500);
         }
     }
 
 
     /// <summary>
-    /// Rota para obter um único banco pelo código dele
+    /// Rota para obter um único boleto pelo código dele
     /// </summary>
     /// <param name="codigoBoleto"></param>
     /// <returns></returns>
     [HttpGet("{codigoBoleto}"), ActionName("Get single bank")]
     [ProducesResponseType(200), ProducesResponseType(404)]
-    public async Task<ActionResult> GetSingleBank(int codigoBoleto)
+    public async Task<ActionResult> GetSingleBankSlip(int codigoBoleto)
     {
-        var banco = await _boletoApplication.Buscar(codigoBoleto);
+        try
+        {
+            var banco = await _boletoApplication.Buscar(codigoBoleto);
 
-        return Ok(banco);
+            return Ok(banco);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500);
+        }
     }
 }

@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.DTO;
 using Domain.Entity;
+using Domain.Exceptions;
 using Domain.Interface.Application;
 using Domain.Interface.Repository;
+using Domain.Validation.Entity;
 
 namespace Application.Application;
 
@@ -16,6 +19,21 @@ public class BancoApplication(IBancoRepository bancoRepository, IMapper mapper) 
     public async Task<bool> Cadastrar(BancoDto bancoDto)
     {
         var banco = _mapper.Map<Banco>(bancoDto);
+
+        var validacao = new BancoValidation();
+        var resultadoValidacao = validacao.Validate(banco);
+
+        if (!resultadoValidacao.IsValid)
+        {
+            var erros = new StringBuilder();
+
+            foreach (var erro in resultadoValidacao.Errors)
+            {
+                erros.AppendLine(erro.ErrorMessage);
+            }
+
+            throw new FluentValidationException(erros.ToString());
+        }
 
         var id = await _bancoRepository.Cadastrar(banco);
 

@@ -5,6 +5,9 @@ using Domain.DTO;
 using Domain.Entity;
 using Domain.Interface.Application;
 using Domain.Interface.Repository;
+using Domain.Validation.Entity;
+using Domain.Exceptions;
+using System.Text;
 
 namespace Application.Application;
 
@@ -17,6 +20,31 @@ public class BoletoApplication(IBoletoRepository boletoRepository, IBancoReposit
     public async Task<bool> Cadastrar(BoletoDto boletoDto)
     {
         var boleto = _mapper.Map<Boleto>(boletoDto);
+
+        if (boleto.CpfCnpjBeneficiario.Formatado == string.Empty)
+        {
+            boleto.CpfCnpjBeneficiario = boletoDto.CpfCnpjBeneficiario;
+        }
+
+        if (boleto.CpfCnpjPagador.Formatado == string.Empty)
+        {
+            boleto.CpfCnpjPagador = boletoDto.CpfCnpjPagador;
+        }
+
+        var validacao = new BoletoValidation();
+        var resultadoValidacao = validacao.Validate(boleto);
+
+        if (!resultadoValidacao.IsValid)
+        {
+            var erros = new StringBuilder();
+
+            foreach (var erro in resultadoValidacao.Errors)
+            {
+                erros.AppendLine(erro.ErrorMessage);
+            }
+
+            throw new FluentValidationException(erros.ToString());
+        }
 
         var id = await _boletoRepository.Cadastrar(boleto);
 
