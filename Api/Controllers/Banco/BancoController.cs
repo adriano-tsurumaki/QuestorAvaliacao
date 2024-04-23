@@ -39,7 +39,6 @@ public class BancoController(IBancoApplication bancoApplication) : Controller
     /// </summary>
     /// <returns></returns>
     [HttpGet, ActionName("Get all banks")]
-    [ProducesResponseType(200), ProducesResponseType(404)]
     public async Task<ActionResult> GetAllBanks()
     {
         try
@@ -60,7 +59,6 @@ public class BancoController(IBancoApplication bancoApplication) : Controller
     /// <param name="codigoBanco"></param>
     /// <returns></returns>
     [HttpGet("{codigoBanco}"), ActionName("Get single bank")]
-    [ProducesResponseType(200), ProducesResponseType(404)]
     public async Task<ActionResult> GetSingleBank(int codigoBanco)
     {
         try

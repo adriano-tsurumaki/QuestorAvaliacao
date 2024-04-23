@@ -41,7 +41,6 @@ public class BoletoController(IBoletoApplication boletoApplication) : Controller
     /// <param name="codigoBoleto"></param>
     /// <returns></returns>
     [HttpGet("{codigoBoleto}"), ActionName("Get single bank")]
-    [ProducesResponseType(200), ProducesResponseType(404)]
     public async Task<ActionResult> GetSingleBankSlip(int codigoBoleto)
     {
         try
